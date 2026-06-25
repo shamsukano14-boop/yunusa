@@ -3,102 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IC Storage Pro</title>
+    <title>Mobile IC Storage GB</title>
     <style>
-        body { background-color: #0b141a; color: #e9edef; font-family: sans-serif; margin: 0; padding: 20px; }
+        body { background-color: #0d1321; color: #ffffff; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
         .container { max-width: 400px; margin: auto; }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #0d1321;
+            z-index: 1000;
+            padding-top: 10px;
+            padding-bottom: 20px;
+        }
+        .contact-info { 
+            text-align: center; background-color: #151c2c; padding: 10px; border-radius: 10px; 
+            margin-bottom: 15px; border: 1px solid #1e293b; font-size: 14px; color: #94a3b8; 
+            display: block; text-decoration: none; 
+        }
+        .whatsapp-logo { width: 16px; height: 16px; vertical-align: middle; margin-right: 5px; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .search-box { width: 85%; padding: 12px; background-color: #1d2436; border: 1px solid #334155; border-radius: 10px; color: white; font-size: 16px; margin: auto; display: block; text-align: center; }
+        .ic-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .ic-card { background-color: #151c2c; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #1e293b; cursor: pointer; }
+        .ic-code-green { color: #34d399; font-size: 18px; margin: 0 0 5px 0; }
+        .gb-tag-red { background-color: #1e1b4b; color: #f87171; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 14px; border: 1px solid #312e81; }
         
-        .search-container { 
-            position: fixed;
-            top: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 400px;
-            display: flex; 
-            gap: 10px;
-            background-color: #0b141a; 
-            padding: 10px 20px;
-            z-index: 100;
-        }
-        
-        .camera-btn { background: #202c33; border: 1px solid #36444e; padding: 12px; border-radius: 12px; color: #00a884; font-size: 20px; cursor: pointer; }
-        .search-box { flex: 1; padding: 12px; background: #202c33; border: 1px solid #36444e; border-radius: 12px; color: white; outline: none; }
-        
-        .whatsapp-btn { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px;
-            background: #00a884; 
-            color: white; 
-            padding: 15px; 
-            border-radius: 15px; 
-            text-decoration: none; 
-            font-weight: bold; 
-            margin-bottom: 20px; 
-            position: sticky; bottom: 20px; z-index: 10; 
-            animation: glowing 2s infinite; 
-            box-shadow: 0 0 15px rgba(0, 168, 132, 0.6); 
-        }
-        .whatsapp-btn img { width: 24px; height: 24px; }
-        @keyframes glowing {
-            0% { box-shadow: 0 0 5px rgba(0, 168, 132, 0.4); }
-            50% { box-shadow: 0 0 20px rgba(0, 168, 132, 0.8); }
-            100% { box-shadow: 0 0 5px rgba(0, 168, 132, 0.4); }
-        }
-        
-        #icContainer {
-            margin-top: 100px;
-        }
-
-        .ic-card { background: #202c33; border: 1px solid #36444e; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s; }
-        .ic-card:hover { transform: scale(1.02); }
-        .chip-icon { 
-            width: 60px; height: 50px; background: #111b21; border: 2px solid #00a884; border-radius: 8px; 
-            display: flex; align-items: center; justify-content: center; 
-            font-weight: bold; color: #00a884; font-size: 14px; 
-        }
-        .storage-size {
-            font-weight: bold;
-            color: #00a884;
-            font-size: 16px;
-            margin-left: auto;
-        }
-        
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; }
-        .modal-content { background: #202c33; padding: 25px; border-radius: 20px; width: 300px; text-align: center; border: 1px solid #36444e; }
-        .close-btn { background: #00a884; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; margin-top: 20px; font-weight: bold; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
+        .modal-content { background-color: #1d2436; padding: 25px; border-radius: 15px; width: 85%; max-width: 320px; border: 1px solid #334155; }
+        .modal-storage-big { font-size: 40px; font-weight: bold; color: #34d399; display: block; margin-top: 5px; }
+        .close-btn { background-color: #818cf8; color: white; padding: 12px; border: none; border-radius: 8px; width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="search-container">
-        <button class="camera-btn" onclick="document.getElementById('cameraInput').click()">📷</button>
-        <input type="file" id="cameraInput" accept="image/*" style="display:none;">
-        <input type="text" id="searchInput" class="search-box" placeholder="Search for IC..." onkeyup="searchIC()">
+    <div class="sticky-header">
+        <a href="https://wa.me/2349134844487" class="contact-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-logo">
+            Contact me to price
+        </a>
+
+        <div class="header">
+            <h1>Mobile IC Storage GB</h1>
+            <p><span id="ic-count">0</span> ICs • EMMC / EMCP / UFS</p>
+        </div>
+
+        <input type="text" id="searchInput" class="search-box" placeholder="Search IC code...">
     </div>
     
-    <div id="icContainer"></div>
-    
-    <a href="https://wa.me/2349134844487" class="whatsapp-btn">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-        <span>+234 913 484 4487 - Contact me for price</span>
-    </a>
+    <div class="ic-list" id="icContainer"></div>
 </div>
 
-<div id="modalOverlay" class="modal-overlay">
+<div id="myModal" class="modal">
     <div class="modal-content">
-        <div style="font-size: 40px; margin-bottom: 15px;">💾</div>
-        <div id="modalDetails" style="color: #e9edef; font-size: 16px; line-height: 1.6;"></div>
-        <button class="close-btn" onclick="closeModal()">Close</button>
+        <h2 style="text-align: center; color: #fff;">Details</h2>
+        <div id="modalDetails" style="font-size: 18px; color: #fff; line-height: 1.8; margin-bottom: 20px;"></div>
+        <button class="close-btn" onclick="document.getElementById('myModal').style.display='none'">Close</button>
     </div>
 </div>
 
 <script>
 const icDatabase = [
-{ name: "KMFN10012M", brand: "Samsung", size: "8GB" },
+  { name: "KMFN10012M", brand: "Samsung", size: "8GB" },
   { name: "JY932", brand: "Generic", size: "16GB" },
   { name: "KLMBG2JETD", brand: "Samsung", size: "32GB" },
   { name: "H9TQ53ACLTMCUR", brand: "SK Hynix", size: "64GB" },
@@ -453,50 +419,46 @@ const icDatabase = [
   { "name": "KIC M225", "brand": "IC Controller", "size": "128G" },
   { "name": "KIC M227", "brand": "IC Controller", "size": "256G" },
   { "name": "KIC M222", "brand": "IC Controller", "size": "512G" }
+
+
+
+
+
 ];
 
+const icContainer = document.getElementById('icContainer');
+const modal = document.getElementById('myModal');
+const modalDetails = document.getElementById('modalDetails');
+const icCount = document.getElementById('ic-count');
+
 function displayICs(data) {
-    const container = document.getElementById('icContainer');
-    container.innerHTML = "";
+    icContainer.innerHTML = "";
+    icCount.textContent = data.length;
+    
     data.forEach(ic => {
-        container.innerHTML += `
-            <div class="ic-card" onclick="showDetails('${ic.name}', '${ic.brand}', '${ic.size}', '${ic.manufacturer}')">
-                <div class="chip-icon">IC</div>
-                <div>
-                    <div style="font-weight:bold; color:#00a884;">${ic.name}</div>
-                    <div style="font-size: 13px; color: #8696a0;">${ic.brand}</div>
-                </div>
-                <div class="storage-size">${ic.size}</div>
-            </div>
-        `;
+        const card = document.createElement('div');
+        card.className = 'ic-card';
+        card.innerHTML = `<div class="ic-details"><h3 class="ic-code-green">${ic.name}</h3><p>${ic.brand}</p></div><div class="gb-tag-red">${ic.size}</div>`;
+        card.onclick = () => {
+            modalDetails.innerHTML = `IC Code: <strong>${ic.name}</strong><br>Brand: <strong>${ic.brand}</strong><br>Storage: <span class="modal-storage-big">${ic.size}</span>`;
+            modal.style.display = 'flex';
+        };
+        icContainer.appendChild(card);
     });
 }
 
-function showDetails(name, brand, size, manufacturer) {
-    const modalDetails = document.getElementById('modalDetails');
-    modalDetails.innerHTML = `
-        <strong style="color: #00a884; font-size: 20px;">${name}</strong><br><br>
-        Brand: <span>${brand}</span><br>
-        Storage: <span style="color: #00a884; font-weight: bold;">${size}</span><br>
-        Manufacturer: <span>${manufacturer}</span>
-    `;
-    document.getElementById('modalOverlay').style.display = "flex";
-}
-
-function closeModal() {
-    document.getElementById('modalOverlay').style.display = "none";
-}
-
-function searchIC() {
-    const val = document.getElementById('searchInput').value.toUpperCase();
-    if (val === "") {
-        displayICs(icDatabase.slice(0, 5));
-    } else {
-        displayICs(icDatabase.filter(ic => ic.name.toUpperCase().includes(val)));
-    }
-}
-
+// A nuna wasu ICs guda biyar na farko a kan home screen
 displayICs(icDatabase.slice(0, 5));
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+    const k = e.target.value.toUpperCase();
+    
+    if (k.length > 0) {
+        displayICs(icDatabase.filter(i => i.name.toUpperCase().includes(k)));
+    } else {
+        displayICs(icDatabase.slice(0, 5));
+    }
+});
 </script>
 </body>
 </html>
