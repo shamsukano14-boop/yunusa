@@ -1,12 +1,13 @@
+
 {
   "background_color": "#2eff08",
   "dir": "ltr",
   "display": "standalone",
   "name": "Yunusa",
   "orientation": "any",
-  "scope": "/",
+  "scope": "/yunusa/",
   "short_name": "Dan inumaster",
-  "start_url": "/",
+  "start_url": "/yunusa/",
   "theme_color": "#ffffff",
   "id": "Daninu",
   "description": "Hadejia"
